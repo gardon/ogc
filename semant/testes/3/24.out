@@ -1,0 +1,9 @@
+semant/testes/3/24
+m args if true && m System.out.println 1  
+Erro em stdin[6,18]:
+    Operação && não possui o lado direito uma expressão com boolean
+    Esperando um tipo boolean, encontrado o tipo m.
+stdin:
+    1 erros
+    0 avisos
+

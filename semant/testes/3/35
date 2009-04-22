@@ -1,0 +1,9 @@
+// testando operador ! (erro)
+class m
+{
+   public static void main(String[] args)
+   {
+       if ( !new int[10] )
+          System.out.println(1);
+   }
+}

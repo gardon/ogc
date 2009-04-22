@@ -1,0 +1,15 @@
+semant/testes/2/06
+m args System.out.println 10 a int m a a b b a int m a a int i b  
+Erro em stdin[17,11]:
+    Metodo redefinido inconsistente.
+    A declaração do método b.m possui mais parâmetros que a classe pai.
+Erro em stdin[12,11]:
+    A expressão de retorno não é do mesmo tipo do método
+    Esperando um tipo int , encontrado o tipo b.
+Erro em stdin[17,11]:
+    A expressão de retorno não é do mesmo tipo do método
+    Esperando um tipo int , encontrado o tipo b.
+stdin:
+    3 erros
+    0 avisos
+

@@ -1,0 +1,9 @@
+semant/testes/2/01
+m args System.out.println 10 a a  
+Erro em stdin[10,7]:
+    Herança cíclica!
+    A classe 'a' ao herdar de 'a' gera um ciclo de heranças.
+stdin:
+    1 erros
+    0 avisos
+

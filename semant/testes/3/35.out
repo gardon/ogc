@@ -1,0 +1,9 @@
+semant/testes/3/35
+m args if ! new 10 System.out.println 1  
+Erro em stdin[6,13]:
+    Operação ! não possui uma expressão boleana
+    Esperando um tipo boolean, encontrado o tipo int [] .
+stdin:
+    1 erros
+    0 avisos
+

@@ -1,0 +1,10 @@
+semant/testes/3/29
+m args System.out.println m length  
+Erro em stdin[6,34]:
+    A expressão não é um array
+    O operador [] deve operar sobre um array
+    Esperando um tipo int[], encontrado o tipo m.
+stdin:
+    1 erros
+    0 avisos
+

@@ -1,0 +1,9 @@
+semant/testes/1/03
+m args System.out.println 10 c int i boolean i  
+Erro em stdin[13,2]:
+    Variavel redeclarada na classe!
+    A variável 'i' ja foi declarada na classe 'c'.
+stdin:
+    1 erros
+    0 avisos
+

@@ -1,0 +1,236 @@
+Package minijava;
+
+Helpers
+	tab  = 0x0009;
+	nl  = 0x000a;
+	cr  = 0x000d;
+	sp  = ' ';
+	underscore = '_';
+	
+	line_terminator = nl | cr | cr nl; 
+
+	all = [0 .. 0xffff];
+	all_noteol = [all - [cr + nl]];
+	
+	digit = ['0' .. '9'] ;
+	letter = [['a' .. 'z'] + ['A' .. 'Z']];
+
+States
+	normal,
+	nested_comment;
+
+Tokens
+	/* Special Symbols */
+	{normal} l_brace = '{' ;
+	{normal} r_brace = '}' ;
+	{normal} l_parenthese = '(';
+	{normal} r_parenthese = ')';
+	{normal} l_bracket = '[';
+	{normal} r_bracket = ']';
+	{normal} semicolon = ';';
+	{normal} comma = ',';
+	{normal} dot = '.';
+	
+	/* Operators */	
+	{normal} bang = '!';
+	{normal} and = '&&';
+	{normal} less = '<';
+	{normal} plus = '+';
+	{normal} minus = '-';
+	{normal} times = '*';	
+	{normal} equal = '=';
+	{normal} vector = '[]';
+	
+	/* Coments */
+	{normal} eol_comment = '//' all_noteol* line_terminator?;
+	{normal} white_space = (sp | tab | line_terminator)+;
+		
+	/* Keywords */
+	{normal} kw_boolean = 'boolean' ;
+	{normal} kw_class = 'class' ;
+	{normal} kw_else = 'else' ;
+	{normal} kw_extends = 'extends' ;
+	{normal} kw_false = 'false' ;
+	{normal} kw_if = 'if' ;
+	{normal} kw_int ='int' ;
+	{normal} kw_length = 'length' ;
+	{normal} kw_main = 'main' ;
+	{normal} kw_new = 'new' ;
+	{normal} kw_print = 'System.out.println' ;
+	{normal} kw_public = 'public' ;
+	{normal} kw_return = 'return' ;
+	{normal} kw_static = 'static' ;
+	{normal} kw_string = 'String' ;
+	{normal} kw_then = 'then' ;
+	{normal} kw_this = 'this' ;
+	{normal} kw_true = 'true' ;
+	{normal} kw_void = 'void' ;
+	{normal} kw_while = 'while' ;
+	
+	/* Identifiers and Literals */
+	{normal} id = (letter | underscore)(digit | letter | underscore)* ;	
+	{normal} integer_literal = digit+;
+	
+	/* Nested Comment Handler */
+	{normal->nested_comment, nested_comment}
+		nested_comment = '/*';
+	
+	{nested_comment} nested_comment_end = '*/';
+	{nested_comment} nested_comment_body = [all - ['*' + '/']]*;
+	{nested_comment} star = '*';
+	{nested_comment} slash = '/';
+	
+Ignored Tokens
+	eol_comment,
+	white_space;
+
+Productions
+	program = main_class class_decl* ;
+	
+	main_class = kw_class [class_name]:id [lbc]:l_brace kw_public kw_static kw_void kw_main l_parenthese kw_string vector [param]:id r_parenthese [lbm]:l_brace statement [rbm]:r_brace  [rbc]:r_brace;
+	
+	class_decl =
+		{simple} kw_class id l_brace var_decl* method_decl* r_brace | 
+		{extends} kw_class [newclass]:id kw_extends [parentclass]:id l_brace var_decl* method_decl* r_brace ;
+		
+	var_decl = type id semicolon;
+	
+	method_decl = kw_public type id l_parenthese formal_list? r_parenthese l_brace var_decl* statement* kw_return exp semicolon r_brace;
+	
+	formal_list = type id formal_rest*;
+	
+	formal_rest = comma type id;
+	
+	type = 
+		{boolean} kw_boolean |
+		{int} kw_int |
+		{vint} kw_int vector |
+		{id} id;
+		
+	statement_aux = {composed} l_brace statement* r_brace;
+		
+	statement = if_statement;	
+	
+	statement_without_if =
+		{statement} statement_aux |
+		{while} kw_while l_parenthese exp r_parenthese statement_aux |
+		{print} kw_print l_parenthese exp r_parenthese semicolon |
+		{assignment} id equal exp semicolon |
+		{vectorassign} id l_bracket [index]:exp r_bracket equal [value]:exp semicolon ;	
+		
+	if_statement =
+		{matched} if_statement_m |
+		{unmatched} if_statement_u;
+		
+	if_statement_m = 
+		{if_else} kw_if l_parenthese exp r_parenthese [then]:if_statement_m kw_else [else]:if_statement_m |
+		{statement} statement_without_if;
+	
+	if_statement_u =
+		{if}  kw_if l_parenthese exp r_parenthese if_statement |
+		{if_else} kw_if l_parenthese exp r_parenthese if_statement_m kw_else if_statement_u;
+	
+
+	exp =
+		{subexp} subexp |
+		{and} exp and subexp;
+		
+	subexp =
+		{element} elem |
+		{lt} subexp less elem;
+	
+	elem = 
+		{term} term |
+		{plus} elem plus term |
+		{minus} elem minus term;
+		
+	term =
+		{factor} factor |
+		{mult} term times factor;
+
+	factor =
+		{unit} unit_term |
+		{vector} unit_term l_bracket exp r_bracket |
+		{lenght} unit_term dot kw_length |
+		{method} unit_term dot id l_parenthese exp_list? r_parenthese;	
+	
+	unit_term =
+		{array} with_new |
+		{noarray} no_new;
+		
+	with_new =
+		{newid} kw_new id l_parenthese r_parenthese |
+		{newint} kw_new kw_int l_bracket exp r_bracket;	
+		
+	no_new =	
+		{number} integer_literal |
+		{complement} bang no_new |
+		{true} kw_true |
+		{false} kw_false |
+		{id} id |
+		{this} kw_this |
+		{par} l_parenthese exp r_parenthese;
+		
+	exp_list = exp exp_rest*;
+	
+	exp_rest = comma exp;
+		
+		
+		
+/*
+ * NOTA 1: Esta seção não deve ser alterada!
+ * NOTA 2: quando o parser estiver pronto, DESCOMENTE a seção abaixo.
+ */
+/**
+Abstract Syntax Tree
+   program = main_class? [classes]:class_decl*
+           ;
+
+   main_class = [name]:id [main_args]:id [statement]:statement
+              ;
+
+   class_decl = [name]:id [super]:id? [attributes]:var_decl* [methods]:method_decl*
+              ;
+
+   var_decl = type [name]:id
+            ;
+
+   method_decl = [return_type]:type [name]:id [formals]:formal* [locals]:var_decl* [body]:statement* [return_exp]:exp
+               ;
+
+   type = {int}     [token]:kw_int
+        | {array}   [token]:kw_int
+        | {object}  [name]:id
+        | {boolean} [token]:kw_boolean
+        ;
+
+   formal = type [name]:id
+          ;
+
+   statement = {block}        [token]:l_brace [statements]:statement*
+             | {while}        [token]:kw_while [condition]:exp [body]:statement
+             | {if}           [token]:kw_if [condition]:exp [then_clause]:statement [else_clause]:statement?
+             | {print}        [token]:kw_print [value]:exp
+             | {assign}       [target]:id [value]:exp
+             | {array_assign} [target]:id [index]:exp [value]:exp
+      ;
+
+   exp = {and} [lhs]:exp [token]:and [rhs]:exp
+       | {equal} [lhs]:exp [token]:equal [rhs]:exp
+       | {less_than} [lhs]:exp [token]:less [rhs]:exp
+       | {plus} [lhs]:exp [token]:plus [rhs]:exp
+       | {minus} [lhs]:exp [token]:minus [rhs]:exp
+       | {times} [lhs]:exp [token]:times [rhs]:exp
+       | {array_lookup} [array]:exp [token]:l_bracket [index]:exp
+       | {array_length} [array]:exp [token]:kw_length
+       | {call} [object]:exp [method]:id [actuals]:exp*
+       | {integer_literal} [value]:integer_literal
+       | {true} [token]:kw_true
+       | {false} [token]:kw_false
+       | {identifier} [name]:id
+       | {this} [token]:kw_this
+       | {new_array} [token]:kw_new [size]:exp
+       | {new_object} [name]:id
+       | {not} [token]:bang [value]:exp
+       ;
+**/

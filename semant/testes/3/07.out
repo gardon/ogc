@@ -1,0 +1,12 @@
+semant/testes/3/07
+m args System.out.println a Init a a a a a i a int i a Init int ii i ii this b a i i + 1 this int i i b a  
+Erro em stdin[6,33]:
+    Parâmetros faltando.
+    A chamada ao método a.Init possui menos parâmetros que o necessário
+Erro em stdin[15,11]:
+    A expressão de retorno não é do mesmo tipo do método
+    Esperando um tipo b, encontrado o tipo a.
+stdin:
+    2 erros
+    0 avisos
+

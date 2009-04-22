@@ -1,0 +1,10 @@
+semant/testes/3/26
+m args System.out.println new new 10 [ 10  
+Erro em stdin[6,26]:
+    O tamanho do array não é um inteiro
+    O operador new int[] deve possuir um tamanho inteiro
+    Esperando um tipo int, encontrado o tipo int [] .
+stdin:
+    1 erros
+    0 avisos
+

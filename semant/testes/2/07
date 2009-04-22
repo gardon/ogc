@@ -1,0 +1,18 @@
+// numero de parametros de metodo reimplementado difere (mais na classe base)
+class m
+{
+    public static void main(String[] args)
+    {
+    	System.out.println(10);
+    }
+}
+
+class a
+{
+   public int m(a a, int i) { return new b(); }
+}
+
+class b extends a
+{
+   public int m(a a) { return new b(); }
+}

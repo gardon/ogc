@@ -1,0 +1,9 @@
+// testando operador < (lado direito invalido)
+class m
+{
+   public static void main(String[] args)
+   {
+       if ( 10 < new m() )
+          System.out.println(1);
+   }
+}

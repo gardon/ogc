@@ -1,0 +1,9 @@
+semant/testes/2/04
+m args System.out.println 10 a int m 0 b a boolean m false  
+Erro em stdin[17,11]:
+    Metodo redefinido inconsistente.
+    O método'm' ja foi declarado na classe pai 'm' com outro tipo de retorno.
+stdin:
+    1 erros
+    0 avisos
+
