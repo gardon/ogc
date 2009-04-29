@@ -1,8 +1,0 @@
-// testando array length (erro)
-class m
-{
-   public static void main(String[] args)
-   {
-      System.out.println(new m().length);
-   }
-}

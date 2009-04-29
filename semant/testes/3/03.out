@@ -1,9 +1,0 @@
-semant/testes/3/03
-m args System.out.println a Init 10 20 a a a a a i a int i a Init int ii i ii this a a i i + 1 this int i i  
-Erro em stdin[6,33]:
-    Parâmetros sobrando.
-    A chamada ao método a.Init possui mais parâmetros que o necessário
-stdin:
-    1 erros
-    0 avisos
-

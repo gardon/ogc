@@ -1,9 +1,0 @@
-semant/testes/1/01
-m args System.out.println 10 m  
-Erro em stdin[1,1]:
-    Classe redeclarada!
-    'm' ja foi declarada anteriormente neste programa.
-stdin:
-    1 erros
-    0 avisos
-

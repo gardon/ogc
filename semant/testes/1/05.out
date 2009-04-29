@@ -1,9 +1,0 @@
-semant/testes/1/05
-m args System.out.println 10 c int i 0 int i 1  
-Erro em stdin[13,9]:
-    Método redeclarado na classe!
-    'c.i' ja foi declarado nesta classe.
-stdin:
-    1 erros
-    0 avisos
-

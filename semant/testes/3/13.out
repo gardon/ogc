@@ -1,9 +1,0 @@
-semant/testes/3/13
-m args System.out.println m - 1  
-Erro em stdin[6,35]:
-    Operação - não possui o lado esquerdo uma expressão com inteiro
-    Esperando um tipo int, encontrado o tipo m.
-stdin:
-    1 erros
-    0 avisos
-

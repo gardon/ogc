@@ -1,9 +1,0 @@
-semant/testes/1/07
-m args System.out.println 10 c int i int p int p 0  
-Erro em stdin[12,24]:
-    Variavel redeclarada no metodo.
-    A variável 'p' ja foi declarada no metodo'i' da classe 'c'.
-stdin:
-    1 erros
-    0 avisos
-
