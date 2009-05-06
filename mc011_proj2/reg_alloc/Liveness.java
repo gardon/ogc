@@ -95,6 +95,51 @@ public class Liveness extends InterferenceGraph
     
     private void computeDFA()
     {	
+      in = new Hashtable<Node, HashSet<Temp>>();
+      out = new Hashtable<Node, HashSet<Temp>>();
+      HashSet<Temp> temp = new HashSet<Temp>();
+
+      // slide 13 do cap 10 de mc910
+      // 1 for each n
+      // 2 in[n] {}; out[n] {}
+      // 3 repeat
+      // 4 for each n
+      // 5 in'[n] = in[n]; out'[n] = put[n];
+      // 6 in[n] = use[n] U (out[n] - def[n])
+      // 7 out[n] = U (s e succ[n]) in[s]
+      // 8 until in'[n] = in[n] and out'[n] = out[n]
+      // 9 for all n
+      for (List<Node> node = graph.nodes(); node != null; node = node.tail) {
+        in.put (node.head, new HashSet<Temp>());
+        out.put (node.head, new HashSet<Temp>());
+      }
+
+      int feito;
+      do {
+        feito = 1;
+        // computar conjuntos in e out!
+
+        for (List<Node> node = graph.nodes(); node != null; node = node.tail)
+        {
+          // calculo dos cjs in'[n] e out'[n]
+          HashSet<Temp> inl = in.get (node.head);
+          HashSet<Temp> outl = out.get (node.head);
+
+          // calculo do conjunto out[n]
+          for (List<Node> succ = node.head.succ(); succ != null; succ=succ.tail)
+            out.get (node.head).addAll (in.get (succ.head));
+
+          // calculo do conjunto in[n]
+          temp.addAll (out.get(node));
+          temp.removeAll (kill.get(node));
+          temp.addAll (gen.get(node));
+          in.put (node, temp);
+
+          // verificacao das condições da linha 8 
+          if ((!inl.containsAll (in.get (node.head))) ||(!outl.containsAll (out.get (node.head))))
+            feito = 0;
+        }
+      } while (feito==0);
     }
     
     private Node getNode(Temp t)
