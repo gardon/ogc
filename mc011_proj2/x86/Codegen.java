@@ -157,6 +157,7 @@ public class Codegen
                 throw new Error("BinOp inválida.");
         }
     }
+
     private Temp munchExp(tree.CALL c){
 	Temp adr = null;
         if (!(c.func instanceof tree.NAME)) {
@@ -192,21 +193,78 @@ public class Codegen
 				new List<Temp>(Frame.esp, null)));
         return t;
     }
-    private Temp munchExp(tree.CONST e){
-    return null;
+
+    private Temp munchExp(tree.CONST c){
+	Temp t = new Temp();
+        emit( new assem.OPER("mov `d0," + c.value, new List<Temp>(t, null), null) );
+        return t;
     }
+
     private Temp munchExp(tree.ESEQ e){
-    return null;
+        munchStm(e.stm);
+        return munchExp(e.exp);
     }
-    private Temp munchExp(tree.MEM e){
-    return null;
+
+    private Temp munchExp(tree.MEM m){
+	Temp t = new Temp();
+        if ((m.exp instanceof tree.BINOP) && 
+		(((tree.BINOP)m.exp).binop == tree.BINOP.PLUS) && 
+		(((tree.BINOP)m.exp).left instanceof tree.CONST)) {
+	    tree.BINOP bop = (tree.BINOP)m.exp;
+	    long cst = ((tree.CONST)bop.left).value;
+	    Temp texp = munchExp(bop.right);
+	    emit( new assem.OPER("mov `d0, [`s0 + " + cst + "]", 
+				    new List<Temp>(t, null), 
+				    new List<Temp>(texp, null)));
+        }else if ((m.exp instanceof tree.BINOP) && 
+		(((tree.BINOP)m.exp).binop == tree.BINOP.MINUS) && 
+		(((tree.BINOP)m.exp).left instanceof tree.CONST)) {
+	    tree.BINOP bop = (tree.BINOP)m.exp;
+	    long cst = ((tree.CONST)bop.left).value;
+	    Temp texp = munchExp(bop.right);
+	    emit( new assem.OPER("mov `d0, [`s0 - " + cst + "]", 
+				    new List<Temp>(t, null), 
+				    new List<Temp>(texp, null)));
+        }else if ((m.exp instanceof tree.BINOP) && 
+		(((tree.BINOP)m.exp).binop == tree.BINOP.PLUS) &&
+		(((tree.BINOP)m.exp).right instanceof tree.CONST)) {
+            tree.BINOP bop = (tree.BINOP)m.exp;
+            long cst = ((tree.CONST)bop.right).value;
+            Temp texp = munchExp(bop.left);
+            emit( new assem.OPER("mov `d0, [`s0 + " + cst + "]", 
+				    new List<Temp>(t, null), 
+				    new List<Temp>(texp, null)));
+        }else if ((m.exp instanceof tree.BINOP) && 
+		(((tree.BINOP)m.exp).binop == tree.BINOP.MINUS) && 
+		(((tree.BINOP)m.exp).right instanceof tree.CONST)) {
+            tree.BINOP bop = (tree.BINOP)m.exp;
+            long cst = ((tree.CONST)bop.right).value;
+            Temp texp = munchExp(bop.left);
+            emit( new assem.OPER("mov `d0, [`s0 - " + cst + "]", 
+				    new List<Temp>(t, null), 
+				    new List<Temp>(texp, null)));
+	}else if (m.exp instanceof tree.CONST) 
+            emit( new assem.OPER("mov `d0, [" + ((tree.CONST)m.exp).value + "]", 
+				    new List<Temp>(t, null), null));
+        else {
+            Temp texp = munchExp(m.exp);
+            emit( new assem.OPER("mov `d0, [`s0]", 
+				    new List<Temp>(t, null), 
+				    new List<Temp>(texp, null)));
+        }
+        return t;
     }
-    private Temp munchExp(tree.NAME e){
-    return null;
+
+    private Temp munchExp(tree.NAME n){
+	Temp t = new Temp();
+        emit( new assem.OPER("mov `d0," + n.label, new List<Temp>(t,null), null));
+        return t;
     }
-    private Temp munchExp(tree.TEMP e){
-    return null;
+
+    private Temp munchExp(tree.TEMP t){
+	return t.temp;
     }
+
     private Temp munchExp (tree.Exp e) {
         if (e instanceof tree.BINOP) {
                 return munchExp((tree.BINOP) e);
