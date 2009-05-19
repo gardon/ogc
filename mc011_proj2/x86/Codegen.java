@@ -100,8 +100,62 @@ public class Codegen
     private void munchCmp (tree.Exp l, tree.Exp r) {
     }
 
-    private Temp munchExp(tree.BINOP e){
-    return null;
+    private Temp munchExp(tree.BINOP b){
+        Temp opl = munchExp(b.left);
+	Temp op =  new Temp();
+	switch (b.binop) {
+	    case tree.BINOP.MINUS:
+		emit( new assem.MOVE("mov `d0,`s0", op, opl));
+		if (b.right instanceof tree.CONST) {
+		    Long cst = ((tree.CONST)b.right).value;
+		    emit( new assem.OPER("sub" + " `d0," + cst + "", 
+					    new List<Temp>(op,null), new List<Temp>(op,null)));
+		} else {
+		    Temp rop = munchExp(b.right);
+		    emit( new assem.OPER("sub" + " `d0,`s0", 
+					    new List<Temp>(op,null), 
+					    new List<Temp>(rop,new List<Temp>(op, null))));
+		}	
+		return op;
+	    case tree.BINOP.PLUS:
+		emit( new assem.MOVE("mov `d0,`s0", op, opl));
+		if (b.right instanceof tree.CONST) {
+		    Long cst = ((tree.CONST)b.right).value;
+		    emit( new assem.OPER("add" + " `d0," + cst + "", 
+					    new List<Temp>(op,null), new List<Temp>(op,null)));
+		} else {
+		    Temp rop = munchExp(b.right);
+		    emit( new assem.OPER("add" + " `d0,`s0", 
+					    new List<Temp>(op,null), 
+					    new List<Temp>(rop,new List<Temp>(op, null))));
+		}	
+		return op;
+	    case tree.BINOP.TIMES:
+		emit( new assem.MOVE("mov `d0,`s0", op, opl));
+		if (b.right instanceof tree.CONST) {
+		    Long cst = ((tree.CONST)b.right).value;
+		    emit( new assem.OPER("imul" + " `d0," + cst + "", 
+					    new List<Temp>(op,null), new List<Temp>(op,null)));
+		} else {
+		    Temp rop = munchExp(b.right);
+		    emit( new assem.OPER("imul" + " `d0,`s0", 
+					    new List<Temp>(op,null), 
+					    new List<Temp>(rop,new List<Temp>(op, null))));
+		}	
+		return op;
+	    case tree.BINOP.LSHIFT:
+		emit( new assem.MOVE("mov `d0, `s0", op, opl) );
+		if (b.right instanceof tree.CONST) {
+		    Long cst = ((tree.CONST)b.right).value;
+		    emit( new assem.OPER("shl" + " `d0," + cst + "", 
+					    new List<Temp>(op,null), new List<Temp>(op,null)));
+		} else {
+                    throw new Error("Shift inválido.");
+		}
+		return op;
+	    default:
+                throw new Error("BinOp inválida.");
+        }
     }
     private Temp munchExp(tree.CALL e){
     return null;
