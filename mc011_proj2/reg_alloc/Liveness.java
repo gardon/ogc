@@ -133,7 +133,8 @@ public class Liveness extends InterferenceGraph
           temp.addAll (out.get(node));
           temp.removeAll (kill.get(node));
           temp.addAll (gen.get(node));
-          in.put (node, temp);
+          //in.put (node, temp);
+          in.put (node.head, temp);
 
           // verificacao das condições da linha 8 
           if ((!inl.containsAll (in.get (node.head))) ||(!outl.containsAll (out.get (node.head))))
