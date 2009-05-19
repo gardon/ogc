@@ -2,6 +2,9 @@ package x86;
 
 import assem.Instr;
 import tree.Stm;
+import temp.*;
+import frame.*;
+import graph.Node;
 import util.List;
 
 public class Codegen
@@ -49,8 +52,8 @@ public class Codegen
         case tree.CJUMP.ULT:  op = "jb";
                              break;
         }
-        emit (new OPER ("" + op + "`j0", null, null, new List<Label>(cj.ifFalse, new List<Label>(cj.ifTrue,null))));
-        emit (new OPER ("jmp `j0", null, null, new List<Label>(cj.ifTrue,null)));;
+        emit (new assem.OPER ("" + op + "`j0", null, null, new List<Label>(cj.ifFalse, new List<Label>(cj.ifTrue,null))));
+        emit (new assem.OPER ("jmp `j0", null, null, new List<Label>(cj.ifTrue,null)));;
     }
 
     private void munchStm (tree.EXPSTM e) {
@@ -63,12 +66,12 @@ public class Codegen
 
     private void munchStm (tree.JUMP j) {
         if (j.exp instanceof tree.NAME)
-            emit (new OPER("jmp `j0", null, null, j.targets));
+            emit (new assem.OPER("jmp `j0", null, null, j.targets));
         else
             throw new Error ("Árvore inválida: jumps só servem para NAMES");
     }
 
-    private void munchStm (tree.MOVE) {
+    private void munchStm (tree.MOVE m) {
         // munchMove
     }
 
@@ -77,22 +80,67 @@ public class Codegen
         munchStm (s.right);
     }
 
-    private void munchStm (Stm s) {
+    private void munchStm (tree.Stm s) {
         if (s instanceof tree.CJUMP)
-            munchStm ((tree.CJUMP), s);
+            munchStm ((tree.CJUMP) s);
         if (s instanceof tree.EXPSTM)
-            munchStm ((tree.EXPSTM), s);
+            munchStm ((tree.EXPSTM) s);
         if (s instanceof tree.LABEL)
-            munchStm ((tree.LABEL), s);
+            munchStm ((tree.LABEL) s);
         if (s instanceof tree.JUMP)
-            munchStm ((tree.JUMP), s);
+            munchStm ((tree.JUMP) s);
         if (s instanceof tree.MOVE)
-            munchStm ((tree.MOVE), s);
+            munchStm ((tree.MOVE) s);
         if (s instanceof tree.SEQ)
-            munchStm ((tree.SEQ), s);
+            munchStm ((tree.SEQ) s);
         else
             throw new Error ("Sentenca inválida.");
     }
+
+    private void munchCmp (tree.Exp l, tree.Exp r) {
+    }
+
+    private Temp munchExp(tree.BINOP e){
+    return null;
+    }
+    private Temp munchExp(tree.CALL e){
+    return null;
+    }
+    private Temp munchExp(tree.CONST e){
+    return null;
+    }
+    private Temp munchExp(tree.ESEQ e){
+    return null;
+    }
+    private Temp munchExp(tree.MEM e){
+    return null;
+    }
+    private Temp munchExp(tree.NAME e){
+    return null;
+    }
+    private Temp munchExp(tree.TEMP e){
+    return null;
+    }
+    private Temp munchExp (tree.Exp e) {
+        if (e instanceof tree.BINOP) {
+                return munchExp((tree.BINOP) e);
+        } else if (e instanceof tree.CALL) {
+                return munchExp((tree.CALL) e);
+        } else if (e instanceof tree.CONST) {
+                return munchExp((tree.CONST) e);
+        } else if (e instanceof tree.ESEQ) {
+                return munchExp((tree.ESEQ) e);
+        } else if (e instanceof tree.MEM) {
+                return munchExp((tree.MEM) e);
+        } else if (e instanceof tree.NAME) {
+                return munchExp((tree.NAME) e);
+        } else if (e instanceof tree.TEMP) {
+                return munchExp((tree.TEMP) e);
+        } else {
+                throw new Error("Expressão inválida.");
+        }
+    }
+
 
     /*-------------------------------------------------------------*
      *                              MAIN                           *

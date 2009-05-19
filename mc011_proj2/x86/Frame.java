@@ -135,7 +135,7 @@ public class Frame extends frame.Frame
         List<Access> head = null, tail = null, nn;
 
         // criando a lista de 'Access' que representam os parametros deste 'frame'
-        // o layout da pilha no x86 está especificado acima.
+        // o layout da pilha no x86 esta especificado acima.
         for ( int i = 8; formals != null; formals = formals.tail, i += 4)
         {
             tAccess = new InFrame();
@@ -157,7 +157,7 @@ public class Frame extends frame.Frame
     }
 
     // apesar de somente termos 6 registradores,
-    // por padrao as variaveis locais vao para temporários.
+    // por padrao as variaveis locais vao para temporarios.
     private Stm localsInit = null;
     
     public Access allocLocal(boolean escapes)
@@ -202,7 +202,7 @@ public class Frame extends frame.Frame
         return Frame.ebp;
     }
 
-    // supondo que as rotinas externas são compiladas por um compilador
+    // supondo que as rotinas externas sao compiladas por um compilador
     // C que decora os nomes das funcoes geradas com um '_'
     public Exp externalCall(String s, List<Exp> args)
     {
