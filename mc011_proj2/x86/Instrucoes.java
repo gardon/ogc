@@ -1,6 +1,6 @@
 package x86;
 
-public Inteface Instrucoes {
+public Interface Instrucoes {
 
 
 

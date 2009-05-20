@@ -32,7 +32,7 @@ import minijava.lexer.Lexer;
 import minijava.node.Start;
 import minijava.parser.Parser;
 
-// Uma coisa não especificada em minijava eh se
+// Uma coisa nao especificada em minijava eh se
 // subclasses podem redeclarar atributos.
 // Solucao adotada: podem; perdem o acesso a variavel
 // da super classe se o fizerem.

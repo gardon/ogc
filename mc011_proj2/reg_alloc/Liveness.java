@@ -130,9 +130,11 @@ public class Liveness extends InterferenceGraph
             out.get (node.head).addAll (in.get (succ.head));
 
           // calculo do conjunto in[n]
-          temp.addAll (out.get(node));
-          temp.removeAll (kill.get(node));
-          temp.addAll (gen.get(node));
+          //temp.addAll (out.get(node));
+	  out.get(node.head).addAll(temp);
+          temp.removeAll (kill.get(node.head));
+          //temp.addAll (gen.get(node));
+	  gen.get(node.head).addAll(temp);
           //in.put (node, temp);
           in.put (node.head, temp);
 

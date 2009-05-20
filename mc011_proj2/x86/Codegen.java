@@ -207,15 +207,15 @@ public class Codegen
     private void munchStm (tree.Stm s) {
         if (s instanceof tree.CJUMP)
             munchStm ((tree.CJUMP) s);
-        if (s instanceof tree.EXPSTM)
+        else if (s instanceof tree.EXPSTM)
             munchStm ((tree.EXPSTM) s);
-        if (s instanceof tree.LABEL)
+        else if (s instanceof tree.LABEL)
             munchStm ((tree.LABEL) s);
-        if (s instanceof tree.JUMP)
+        else if (s instanceof tree.JUMP)
             munchStm ((tree.JUMP) s);
-        if (s instanceof tree.MOVE)
+        else if (s instanceof tree.MOVE)
             munchStm ((tree.MOVE) s);
-        if (s instanceof tree.SEQ)
+        else if (s instanceof tree.SEQ)
             munchStm ((tree.SEQ) s);
         else
             throw new Error ("Sentenca inválida.");
