@@ -1,8 +1,0 @@
-// testando operador - (lado esquerdo invalido)
-class m
-{
-   public static void main(String[] args)
-   {
-       System.out.println(new m() - 1);
-   }
-}
