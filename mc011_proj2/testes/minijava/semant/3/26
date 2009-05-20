@@ -1,0 +1,8 @@
+// testando array lookup (tamanho invalido)
+class m
+{
+   public static void main(String[] args)
+   {
+      System.out.println(new int[new int[10]][10]);
+   }
+}

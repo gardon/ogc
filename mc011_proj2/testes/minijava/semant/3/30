@@ -1,0 +1,14 @@
+// testando new array (OK)
+class m
+{
+   public static void main(String[] args)
+   {
+      System.out.println(0);
+   }
+}
+
+class a
+{
+   int[] i;
+   public int i(){i = new int[10]; return 0;}
+}

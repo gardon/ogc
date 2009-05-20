@@ -1,0 +1,21 @@
+// tipo de retorno invalido
+class m
+{
+    public static void main(String[] args)
+    {
+    	System.out.println(new a().Init().a().a().a().a().a().i());
+    }
+}
+
+class a
+{
+   int i;
+   
+   public a Init(int ii){ i = ii; return this; }
+   public b a(){ i = i + 1; return this; }
+   public int i() { return i; }
+}
+
+class b extends a
+{
+}
