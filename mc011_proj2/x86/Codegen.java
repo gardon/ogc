@@ -280,10 +280,10 @@ public class Codegen
     }
 
     private Temp munchExp(tree.CALL c){
-	Temp adr = null;
-        if (!(c.func instanceof tree.NAME)) {
-                adr = munchExp(c.func);
-        }
+	//Temp adr = null;
+        //if (!(c.func instanceof tree.NAME)) {
+        //        adr = munchExp(c.func);
+        //}
 	
 	List<Temp> targs = null;
         long nparms = 0;
@@ -294,19 +294,21 @@ public class Codegen
         }
 
         for(List<Temp> iter = targs ; iter != null; iter = iter.tail )
-                emit( new assem.OPER("push `s0",  
-					new List<Temp>(Frame.esp, null), 
-					new List<Temp>(iter.head, 
-					new List<Temp>(Frame.esp, null))) );
+            emit( new assem.OPER("push `s0",  
+				    new List<Temp>(Frame.esp, null), 
+				    new List<Temp>(iter.head, 
+				    new List<Temp>(Frame.esp, null))) );
 	
 	long spspace = nparms * frame.wordsize();
 
         if (c.func instanceof tree.NAME) {
-                tree.NAME name = (tree.NAME)c.func;
-                emit( new assem.OPER("call " + name.label, Frame.calldefs, null));
-        } else 
-                emit( new assem.OPER("call `s0", Frame.calldefs, new List<Temp>(adr,null)));
-	
+            tree.NAME name = (tree.NAME)c.func;
+            emit( new assem.OPER("call " + name.label, Frame.calldefs, null));
+        } else {
+	    Temp adr = munchExp(c.func);
+            emit( new assem.OPER("call `s0", Frame.calldefs, new List<Temp>(adr,null)));
+	}
+
 	Temp t = new Temp();
         emit( new assem.MOVE("mov `d0,`s0", t, frame.RV()) );
         emit( new assem.OPER("add `d0," + spspace, 
