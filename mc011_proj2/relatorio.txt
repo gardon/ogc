@@ -1,0 +1,56 @@
+MC011 - Segundo Projeto
+
+Objetivo
+
+O objetivo deste trabalho era a implementação da análise de liveness e
+seleção de instruções de um compilador.
+
+Implementação
+
+A primeira etapa da implementação foi a análise de liveness e a
+segunda foi a seleção de instruções. Foi utilizado o algoritmo
+apresentado nas notas de aula de mc910 (capítulo 10, página 13).
+Embora seja menos eficaz do que o algoritmo que percorre na ordem
+inversa os nós, sua implementação é bastante trivial, por isso esta
+escolha.
+A implementação foi direta, bastando produzir a função computeDFA, e
+não causou transtornos ao grupo, e está no arquivo Liveness.java do
+pacote reg_alloc.
+
+Para a segunda etapa, o grupo optou por implementar o algoritmo Maximal Munch.
+Foi alterado o arquivo Codegen.java do pacote x86.
+Foram escolhidas 10 instruções do assembly do x86 para serem tratadas
+por nosso programa.
+De acordo com a implementação sugerida no livro, utilizamos dois
+métodos principais para o Maximal Munch: munchStm e munchExp, que
+tratam os objetos Stm e Exp e as classes que derivam destes métodos.
+A função munchCall foi a mais trabalhosa de se
+implementar. Seu funcionamento ocorre da seguinte forma:
+
+- calcular endereço de retorno
+- executar o munch para cada parâmetro e contá-los
+- empilhar parâmetros.
+- emitir o call (nome ou endereço)
+- copiar valor de retorno
+- liberar espaçoda pilha
+
+Compilação e Execução
+
+Elaboramos dois scripts para automatizar as tarefas de compilação e
+execução deste projeto.
+Para compilar o programa, acessar a raiz e executar "./compila.sh". O
+script tornará o ambiente pronto para utilização.
+Para executar para um arquivo teste.java, acessar a raiz e executar
+"./maxmunch.sh teste.java".
+
+Resultados
+
+Pudemos observar pelos testes que o código assembly foi gerado com
+sucesso, e a alocação de registradores está adequada.
+
+Referências
+
+- livro do Appel: capítulos 9 e 10
+- notas de aula de mc910: capítulos 9 e 10
+- documentação sobre as classes e métodos do pacote de mc011
+disponível na página da disciplina
