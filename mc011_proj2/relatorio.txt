@@ -50,7 +50,8 @@ sucesso, e a alocação de registradores está adequada.
 
 Referências
 
-- livro do Appel: capítulos 9 e 10
+- Appel, Andrew. Modern Compiler Implementation in Java - 2nd Edition,
+2002. Cambridge University Press - capítulos 9 e 10
 - notas de aula de mc910: capítulos 9 e 10
 - documentação sobre as classes e métodos do pacote de mc011
 disponível na página da disciplina
