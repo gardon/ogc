@@ -1,6 +1,15 @@
 package diesel;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
+import temp.Temp;
+import util.List;
+import flow_graph.FlowGraph;
+import graph.Node;
 
 public class ReachingDefinitions {
 
@@ -19,13 +28,13 @@ public class ReachingDefinitions {
 
         computeDefs();
         computeGenKill();
-        compute DFA();
+        computeDFA();
 
     }
 
     public void computeDefs() {
 
-        for (List<Node> nodes = graph.nodes(), nodes != null; nodes = nodes.tail) {
+        for (List<Node> nodes = graph.nodes(); nodes != null; nodes = nodes.tail) {
             for (List<Temp> aux = graph.def(nodes.head); aux != null; aux = aux.tail) {
                 if (defs != null && defs.containsKey(aux.head))
                     defs.get(aux.head).add(nodes.head);
@@ -45,7 +54,7 @@ public class ReachingDefinitions {
         for (List<Node> nodes = graph.nodes(); nodes != null; nodes = nodes.tail) {
             HashSet<Node> k = new HashSet<Node>();
             HashSet<Node> g = new HashSet<Node>();
-            for (List<Temp> aux = graph.def(nodes.head); aux != null; aux = aux;tail) {
+            for (List<Temp> aux = graph.def(nodes.head); aux != null; aux = aux.tail) {
                 k = (HashSet<Node>)(defs.get(aux.head)).clone();
                 k.remove(nodes.head);                
             }
@@ -59,7 +68,7 @@ public class ReachingDefinitions {
 
     public void computeDFA() {
         Hashtable<Node, HashSet<Node>> inl = null;
-        Hashtable<Node, HashSet<Node>> oldl = null;
+        Hashtable<Node, HashSet<Node>> outl = null;
 
         inl = new Hashtable<Node, HashSet<Node>>();
         outl = new Hashtable<Node, HashSet<Node>>();
