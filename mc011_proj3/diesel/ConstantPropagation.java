@@ -11,7 +11,14 @@ import graph.Node;
 
 public class ConstantPropagation {
     private AssemFlowGraph graph;
-    public List<Instr> finalInstrs = null;
+    private List<Instr> finalInstrs = null;
+
+    public List<Instr> getInstr (){
+	if (this.finalInstrs != null)
+	    return this.finalInstrs;
+	else
+	    return null;
+    }
 
     public ConstantPropagation(List<Instr> instrs){
 	graph = new AssemFlowGraph(instrs);
@@ -77,13 +84,12 @@ public class ConstantPropagation {
 
 	/* inverte a lista invertida =D */
 	List<Instr> lAux = finalInstrs;
-	/*int tam = finalInstrs.size();
+	int tam = finalInstrs.size();
 	finalInstrs = null;
-	for (int i = 0; i < tam; i++){
+	for (i = 0; i < tam; i++){
 	    finalInstrs = new List<Instr> (lAux.head, finalInstrs);
 	    lAux = lAux.tail;
-	}*/
-	finalInstrs = invert(lAux);
+	}
     }
 
 }
