@@ -154,6 +154,8 @@ public final class Main
                                                             
                     // allocating the registers
                     RegAlloc r = new RegAlloc(p.frame, instrs);
+
+		    //TODO: Constant Propagation
                     
                     // outputting the generated code.
                     Proc finalProc = p.frame.procEntryExit3(r.instrs);
