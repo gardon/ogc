@@ -57,7 +57,7 @@ public class ReachingDefinitions {
 
             // calcula conjunto kill
             for (List<Temp> aux = graph.def(nodes.head); aux != null; aux = aux.tail) {
-                k = (HashSet<Node>)(defs.get(nodes.head)).clone();
+                k = (HashSet<Node>)(defs.get(aux.head)).clone();
                 k.remove(nodes.head);
             }
             // calcula conjunto gen

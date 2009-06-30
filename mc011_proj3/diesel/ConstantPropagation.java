@@ -80,10 +80,14 @@ public class ConstantPropagation {
 
 	    /* atualiza finalInstrs, ORDEM INVERSA!!!! */
 	    //finalInstrs = new List<Instr> (graph.instr(nodes.head), finalInstrs);
-	    aux2=finalInstrs;
-	    while(aux2.tail != null)
-		aux2=aux2.tail;
-	    aux2.tail= new List<Instr> (graph.instr(nodes.head),null);
+	    if(finalInstrs == null)
+		finalInstrs = new List<Instr> (graph.instr(nodes.head), null);
+	    else{
+	    	aux2=finalInstrs;
+	    	while(aux2.tail != null)
+	    	    aux2=aux2.tail;
+	    	aux2.tail= new List<Instr> (graph.instr(nodes.head),null);
+	    }
 
 	}
 
