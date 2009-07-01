@@ -11,7 +11,7 @@ import graph.Node;
 
 public class ConstantPropagation {
     private AssemFlowGraph graph;
-    private List<Instr> finalInstrs = null;
+    public List<Instr> finalInstrs = null;
 
     public List<Instr> getInstr (){
 	if (this.finalInstrs != null)
@@ -30,23 +30,21 @@ public class ConstantPropagation {
 	/* chama o reaching definitions */
 	ReachingDefinitions rc = new ReachingDefinitions(graph);
 
-	/* começa a percorrer os nós do grafo e tenta substituir as ctes */
+	/* Constant Propagation */
 	for(List<Node> nodes = graph.nodes(); nodes != null; nodes = nodes.tail){
-	    /* para cada nó do grafo: percorre todos os uses e 
-	     * verifica se ele é cadidato a substituição */
 	    i = 0;
 	    for(List<Temp> aux = graph.use(nodes.head); aux != null; aux = aux.tail){
-		/* pega todos os nós (defs) em que um Temp-"use" é definido */
+		/* pega todos os nos (defs) em que um Temp-"use" eh definido */
 		HashSet<Node> defs = rc.defs.get(aux.head);
 		if (defs != null){
 		    Iterator<Node> defsIterator = defs.iterator();
-		    /* pega todos os nós (in) vivos na entrada do nó atual */
+		    /* pega todos os nos (in) vivos na entrada do no atual */
 		    HashSet<Node> in = rc.in.get(nodes.head);
 
 		    cte = "";
 		    indice = -1;
 
-		    /* compara os nós de "defs" nós com os nós de "in" do nó atual  */
+		    /* compara os nos de "defs" nos com os nos de "in" do no atual  */
 		    while(defsIterator.hasNext()){
 			no = defsIterator.next();
 
@@ -76,10 +74,9 @@ public class ConstantPropagation {
 		}
 		/* indice do aux dentro da lista de use do no atual*/
 		i++;
-	    } /* fim for */
+	    } 
 
-	    /* atualiza finalInstrs, ORDEM INVERSA!!!! */
-	    //finalInstrs = new List<Instr> (graph.instr(nodes.head), finalInstrs);
+	    /* atualiza finalInstrs */
 	    if(finalInstrs == null){
 		finalInstrs = new List<Instr> (graph.instr(nodes.head), null);
 	    	aux2=finalInstrs;
@@ -90,14 +87,6 @@ public class ConstantPropagation {
 
 	}
 
-	/* inverte a lista invertida =D */
-//	List<Instr> lAux = finalInstrs;
-//	int tam = finalInstrs.size();
-//	finalInstrs = null;
-//	for (i = 0; i < tam; i++){
-//	    finalInstrs = new List<Instr> (lAux.head, finalInstrs);
-//	    lAux = lAux.tail;
-//	}
     }
 
 }
