@@ -25,7 +25,7 @@ public class ConstantPropagation {
 	int i, indice;
 	String cte;
 	Node no;
-	List<Instr> aux2;
+	List<Instr> aux2 = null;
 
 	/* chama o reaching definitions */
 	ReachingDefinitions rc = new ReachingDefinitions(graph);
@@ -80,13 +80,12 @@ public class ConstantPropagation {
 
 	    /* atualiza finalInstrs, ORDEM INVERSA!!!! */
 	    //finalInstrs = new List<Instr> (graph.instr(nodes.head), finalInstrs);
-	    if(finalInstrs == null)
+	    if(finalInstrs == null){
 		finalInstrs = new List<Instr> (graph.instr(nodes.head), null);
-	    else{
 	    	aux2=finalInstrs;
-	    	while(aux2.tail != null)
-	    	    aux2=aux2.tail;
+	    }else{
 	    	aux2.tail= new List<Instr> (graph.instr(nodes.head),null);
+	    	aux2=aux2.tail;
 	    }
 
 	}
