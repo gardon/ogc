@@ -154,14 +154,14 @@ public final class Main
 		    
 		    instrs = p.frame.procEntryExit2(instrs);
 							    
-		    // allocating the registers
-		    RegAlloc r = new RegAlloc(p.frame, instrs);
-
-		    //TODO: Constant Propagation
-		    ConstantPropagation c = new ConstantPropagation(r.instrs);
+		    // Constant Propagation
+		    ConstantPropagation c = new ConstantPropagation(instrs);
 		    
+		    // allocating the registers
+		    RegAlloc r = new RegAlloc(p.frame, c.finalInstrs);
+
 		    // outputting the generated code.
-		    Proc finalProc = p.frame.procEntryExit3(c.getInstr());
+		    Proc finalProc = p.frame.procEntryExit3(r.instrs);
 		    finalProc.print(out, r);
 		}
 	}
