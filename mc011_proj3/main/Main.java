@@ -154,11 +154,14 @@ public final class Main
 		    
 		    instrs = p.frame.procEntryExit2(instrs);
 							    
-		    // Constant Propagation
+		    // Constant Propagation (comente para tirar otimizacao)
 		    ConstantPropagation c = new ConstantPropagation(instrs);
 		    
-		    // allocating the registers
+		    // allocating the registers (comente para tirar otimizacao)
 		    RegAlloc r = new RegAlloc(p.frame, c.finalInstrs);
+		    
+		    // sem otimizacao (descomente para tirar otimizacao)
+		    //RegAlloc r = new RegAlloc(p.frame, instrs);
 
 		    // outputting the generated code.
 		    Proc finalProc = p.frame.procEntryExit3(r.instrs);

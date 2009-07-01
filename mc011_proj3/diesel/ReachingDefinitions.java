@@ -100,7 +100,7 @@ public class ReachingDefinitions {
         }
     	
     	// repeat
-    	int hasChanged;
+    	int feito;
     	do {    		
     		// for each n
         	for (List<Node> instrs = inverseNodes; instrs != null; instrs = instrs.tail) {
@@ -129,23 +129,23 @@ public class ReachingDefinitions {
         		out.put(n, tmp);        		
             }
         	
-        	hasChanged = 0;
+        	feito = 1;
         	for ( List<Node> instrs = inverseNodes; instrs != null; instrs = instrs.tail )
             {
         		Node n = instrs.head;
-        		
+
         		if (in.get(n).equals(inl.get(n)) == false) {
-        			hasChanged = 1;
+        			feito = 0;
         			break;
         		}
         		
         		if (out.get(n).equals(outl.get(n)) == false) {
-        			hasChanged = 1;
+        			feito = 0;
         			break;
         		}
             }
     		
-    	} while (hasChanged==1);
+    	} while (feito==0);
     	// until in'[n] = in[n] and out'[n] = out[n] for all n
  
     }

@@ -1,0 +1,13 @@
+Para testar, compilar com 
+
+./compila.sh
+
+e rodar com 
+
+./roda.sh [nome do teste]
+
+onde o nome do teste é um arquivo que esteja no diretorio test/
+
+Ex.: ./roda.sh Factorial.txt
+
+Para testar sem as otimizacoes, alterar o arquivo main/Main.java nos locais indicados.
